@@ -6,7 +6,14 @@ import { toast } from "react-toastify";
 
 const GetComment = () => {
     const [inputId, setInputId] = useState(""); 
-    const [comments, setComments] = useState<any[]>([]);
+    interface Comment {
+        author: {
+            id: string;
+        };
+    }
+    
+    const [comments, setComments] = useState<Comment[]>([]);
+    
 
     // Hàm gọi API lấy comment
     const getCommentByUrl = async (id: string) => {
@@ -41,26 +48,7 @@ const GetComment = () => {
         }
     };
 
-    const handleCopy = async (text: string) => {
-        try {
-            const previousText = await navigator.clipboard.readText();
-            let newText;
-
-            if (previousText.includes("\n")) {
-                // Nếu clipboard đã chứa danh sách trước đó → Reset lại
-                newText = text;
-            } else {
-                // Nếu clipboard chưa có danh sách trước đó → Tiếp tục nối chuỗi
-                newText = previousText ? `${previousText}\n${text}` : text;
-            }
-
-            await navigator.clipboard.writeText(newText);
-            toast.success("Đã sao chép thành công!");
-        } catch (err) {
-            toast.error("Lỗi khi sao chép!");
-            console.error(err);
-        }
-    };
+   
 
     const handleCopyAll = async () => {
         try {
@@ -118,13 +106,7 @@ const GetComment = () => {
                                         className="d-flex justify-content-between align-items-center mb-2 p-2 border rounded"
                                     >
                                         <span>{comment.author.id}</span>
-                                        <Button 
-                                            variant="outline-primary" 
-                                            size="sm" 
-                                            onClick={() => handleCopy(comment.author.id)}
-                                        >
-                                            Copy
-                                        </Button>
+                                       
                                     </li>
                                 ))
                             ) : (
