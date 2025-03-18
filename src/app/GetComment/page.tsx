@@ -25,7 +25,7 @@ const GetComment = () => {
                 method: "GET",
                 url: url,
                 headers: {
-                    "x-rapidapi-key": "11346e5537msh5921e328f482712p1715f3jsnd5108e6aa4b9",
+                    "x-rapidapi-key": "d8634c50c9mshb87e84093858d36p17257ajsnd49b1335f2bc",
                     "x-rapidapi-host": "facebook-scraper3.p.rapidapi.com",
                 },
             };
