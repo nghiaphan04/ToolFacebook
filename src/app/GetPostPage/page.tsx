@@ -4,6 +4,7 @@ import { Button, Spinner } from "react-bootstrap";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import * as XLSX from "xlsx";
 
 interface Post {
   author: {
@@ -129,24 +130,23 @@ const GetPostPage = () => {
 
   const handleDownload = () => {
     if (posts.length === 0) {
-      toast.warning("Không có dữ liệu để tải.");
-      return;
+        toast.warning("Không có dữ liệu để tải.");
+        return;
     }
 
-    const content = posts
-      .filter((post) => post.message && post.message.trim() !== "")
-      .map((post, index) => `${index + 1}. ${post.message.trim()}`)
-      .join("\n");
+    const data = posts
+        .filter((p) => p.message?.trim())
+        .map((p, i) => ({
+        STT: i + 1,
+        TinNhắn: p.message.trim(),
+        }));
 
-    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Posts");
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `facebook_page_posts.txt`;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
+    XLSX.writeFile(workbook, "page_posts.xlsx");
+    };
 
   return (
     <div className="mx-auto bg-white row">
@@ -189,7 +189,7 @@ const GetPostPage = () => {
             onClick={handleDownload}
             disabled={posts.length === 0 && loading}
           >
-            Tải xuống (.txt)
+            Tải xuống (.xlsx)
           </Button>
         </div>
       </div>
