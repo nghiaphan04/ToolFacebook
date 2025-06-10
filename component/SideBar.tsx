@@ -11,8 +11,8 @@ const Sidebar: React.FC = () => {
     const menuItems: MenuItem[] = [
         { name: 'Find id by link', path: '/FindId'},
         { name: 'Get cmt by post', path: '/GetComment'},
-        { name: 'Chưa nghĩ ra:))', path: '/#'},
-        { name: 'Nghĩ ra thì đặt', path: '/#' },
+        { name: 'Lấy post group', path: '/GetPostGroup'},
+        { name: 'Lấy post page', path: '/GetPostPage' },
         { name: 'Chưa biết', path: '/#' },
     ];
 
